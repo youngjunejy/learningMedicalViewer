@@ -7,3 +7,7 @@
 - MPRSimpleViewer：https://github.com/rcorredorj/MPRSimpleViewer
   - c++实现
   - 代码结构简单
+
+这里留下实现方式的各种代码
+
+https://discourse.vtk.org/t/wrong-mpr-image-orientation-when-using-vtkresliceimageviewer/4158

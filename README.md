@@ -2,17 +2,18 @@
 
 ## doing
 
-- 实现 MPR 渲染，使用 vtkResliceCursor？去阅读开源项目如何实现，要看 3D slicer 如何实现。
+- [] DICOM
+  - 了解读取 vtk 如何处理，dicom 图像关键节点的处理
+  - series render
+  - 除了vtk还有哪些可以和vtk配置但读取dicom的库（优先级低）
 
-## 计划
-
-- 支持 DICOM 数据格式的相关功能
-- UI 相关的工作靠后
+## 思考笔记
+- 因为是用于学习，所以所有的渲染模式都可以显示出来观看，以查看效果
 
 ## 功能
 
 - [ ] 数据读取
-  - [x] DICOM
+  - [ ] DICOM
   - [ ] NRRD
   - [ ] NIFTI
 - [ ] 辅助观察
@@ -34,3 +35,8 @@
   - [ ] 分割
   - [ ] 检测
   - [ ] 配准
+
+## backlog
+
+- UI
+- 代码重构

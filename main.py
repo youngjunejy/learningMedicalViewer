@@ -1,51 +1,77 @@
-import sys
-import SimpleITK as sitk
-import numpy as np
-from PySide6.QtWidgets import QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget, QSlider, QHBoxLayout
-from PySide6.QtGui import QImage, QPixmap
-from PySide6.QtCore import Qt
+from vtkmodules.vtkRenderingCore import (
+    vtkRenderWindow,
+    vtkRenderer
+)
+from vtkmodules.vtkIOImage import vtkDICOMImageReader
+from vtkmodules.vtkInteractionImage import (vtkImageViewer2, vtkResliceImageViewer)
+from vtkmodules.vtkRenderingCore import vtkRenderWindowInteractor
+from vtkmodules.vtkCommonColor import vtkNamedColors
 
-class MPRViewer(QMainWindow):
-    def __init__(self, image):
-        super().__init__()
-        self.setWindowTitle("MPR Viewer")
+from core.resliceViewer import ResliceViewer
 
-        self.image_array = sitk.GetArrayFromImage(image)
-        self.current_slice = 0
+def main(argv):
+  colors = vtkNamedColors()
+  reader = vtkDICOMImageReader()
+  reader.SetDirectoryName('./sample-data/Circle of Willis')
+  reader.Update()
 
-        self.label = QLabel()
-        self.update_image()
+  renWin = vtkRenderWindow()
+  renWin.SetWindowName('LearningMedicalViewer')
+  renWin.SetSize(800, 800)
 
-        self.slider = QSlider()
-        self.slider.setOrientation(Qt.Orientation.Horizontal)
-        self.slider.setRange(0, self.image_array.shape[0] - 1)
-        self.slider.valueChanged.connect(self.change_slice)
+  # axialRenderer = vtkRenderer()
+  # axialRenderer.SetViewport(0, 0.5, 0.5, 1)
+  # axialRenderer.SetBackground(colors.GetColor3d('DodgerBlue'))
+  # axialImageViewer = vtkImageViewer2()
+  # axialImageViewer.SetInputConnection(reader.GetOutputPort())
+  # axialImageViewer.SetRenderer(axialRenderer)
+  # axialImageViewer.SetRenderWindow(renWin)
+  # axialImageViewer.SetupInteractor(renWin.GetInteractor())
+  # axialImageViewer.Render()
+  # renWin.AddRenderer(axialRenderer)
 
-        layout = QVBoxLayout()
-        layout.addWidget(self.label)
-        layout.addWidget(self.slider)
+  axialRenderer = vtkRenderer()
+  axialRenderer.SetViewport(0, 0.5, 0.5, 1)
+  axialRenderer.SetBackground(colors.GetColor3d('DodgerBlue'))
+  axialImageViewer = vtkResliceImageViewer()
+  axialImageViewer.SetSliceOrientationToXY()
+  axialImageViewer.SetInputConnection(reader.GetOutputPort())
+  axialImageViewer.SetRenderer(axialRenderer)
+  axialImageViewer.SetRenderWindow(renWin)
+  axialImageViewer.SetupInteractor(renWin.GetInteractor())
+  axialImageViewer.Render()
+  renWin.AddRenderer(axialRenderer)
 
-        container = QWidget()
-        container.setLayout(layout)
-        self.setCentralWidget(container)
+  coronalRenderer = vtkRenderer()
+  coronalRenderer.SetViewport(0, 0, 0.5, 0.5)
+  coronalRenderer.SetBackground(colors.GetColor3d('DodgerBlue'))
+  coronalImageViewer = vtkResliceImageViewer()
+  coronalImageViewer.SetSliceOrientationToXZ()
+  coronalImageViewer.SetInputConnection(reader.GetOutputPort())
+  coronalImageViewer.SetRenderWindow(renWin)
+  coronalImageViewer.SetRenderer(coronalRenderer)
+  coronalImageViewer.SetupInteractor(renWin.GetInteractor())
+  coronalImageViewer.Render()
+  renWin.AddRenderer(coronalRenderer)
 
-    def update_image(self):
-        slice_image = self.image_array[self.current_slice, :, :]
-        qimage = self.convert_to_qimage(slice_image)
-        self.label.setPixmap(QPixmap.fromImage(qimage))
+  sagittalRenderer = vtkRenderer()
+  sagittalRenderer.SetViewport(0.5, 0, 1, 0.5)
+  sagittalRenderer.SetBackground(colors.GetColor3d('DodgerBlue'))
+  sagittalImageViewer = vtkResliceImageViewer()
+  sagittalImageViewer.SetSliceOrientationToYZ()
+  sagittalImageViewer.SetInputConnection(reader.GetOutputPort())
+  sagittalImageViewer.SetRenderWindow(renWin)
+  sagittalImageViewer.SetRenderer(sagittalRenderer)
+  sagittalImageViewer.SetupInteractor(renWin.GetInteractor())
+  sagittalImageViewer.Render()
+  renWin.AddRenderer(sagittalRenderer)
 
-    def convert_to_qimage(self, array):
-        height, width = array.shape
-        array = ((array - array.min()) / (array.max() - array.min()) * 255).astype(np.uint8)
-        return QImage(array.data, width, height, width * array.itemsize, QImage.Format_Grayscale8)
+  iren = vtkRenderWindowInteractor()
+  iren.SetRenderWindow(renWin)
+  iren.Initialize()
+  iren.Start()
 
-    def change_slice(self, value):
-        self.current_slice = value
-        self.update_image()
+if __name__ == '__main__':
+    import sys
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    image = sitk.ReadImage("data/CT-chest.nrrd")
-    viewer = MPRViewer(image)
-    viewer.show()
-    sys.exit(app.exec())
+    main(sys.argv)
