@@ -7,8 +7,6 @@ from vtkmodules.vtkInteractionImage import (vtkImageViewer2, vtkResliceImageView
 from vtkmodules.vtkRenderingCore import vtkRenderWindowInteractor
 from vtkmodules.vtkCommonColor import vtkNamedColors
 
-from core.resliceViewer import ResliceViewer
-
 def main(argv):
   colors = vtkNamedColors()
   reader = vtkDICOMImageReader()
@@ -32,7 +30,7 @@ def main(argv):
 
   axialRenderer = vtkRenderer()
   axialRenderer.SetViewport(0, 0.5, 0.5, 1)
-  axialRenderer.SetBackground(colors.GetColor3d('DodgerBlue'))
+  axialRenderer.SetBackground(colors.GetColor3d('Red'))
   axialImageViewer = vtkResliceImageViewer()
   axialImageViewer.SetSliceOrientationToXY()
   axialImageViewer.SetInputConnection(reader.GetOutputPort())
@@ -44,7 +42,7 @@ def main(argv):
 
   coronalRenderer = vtkRenderer()
   coronalRenderer.SetViewport(0, 0, 0.5, 0.5)
-  coronalRenderer.SetBackground(colors.GetColor3d('DodgerBlue'))
+  coronalRenderer.SetBackground(colors.GetColor3d('Green'))
   coronalImageViewer = vtkResliceImageViewer()
   coronalImageViewer.SetSliceOrientationToXZ()
   coronalImageViewer.SetInputConnection(reader.GetOutputPort())
@@ -56,7 +54,7 @@ def main(argv):
 
   sagittalRenderer = vtkRenderer()
   sagittalRenderer.SetViewport(0.5, 0, 1, 0.5)
-  sagittalRenderer.SetBackground(colors.GetColor3d('DodgerBlue'))
+  sagittalRenderer.SetBackground(colors.GetColor3d('Yellow'))
   sagittalImageViewer = vtkResliceImageViewer()
   sagittalImageViewer.SetSliceOrientationToYZ()
   sagittalImageViewer.SetInputConnection(reader.GetOutputPort())
