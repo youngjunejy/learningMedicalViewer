@@ -1,8 +1,13 @@
 {
   "cSpell.words": [
+    "GDCM",
     "interactor",
     "iren",
+    "MRML",
+    "QVTK",
     "reslice",
-    "sitk"
-  ]
+    "sitk",
+    "vtkmodules"
+  ],
+  "python.analysis.typeCheckingMode": "basic"
 }
