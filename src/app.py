@@ -1,5 +1,5 @@
 import sys
-from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QWidget, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QWidget, QLabel, QFrame
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette, QAction
 
@@ -42,7 +42,7 @@ class MainWindow(QMainWindow):
 
 
     h1_layout.addWidget(self.axial_viewer)
-    h1_layout.addWidget(QtViewerContainer('VR'))
+    h1_layout.addWidget(self.axial_viewer)
     h2_layout.addWidget(self.coronal_viewer)
     h2_layout.addWidget(self.sagittal_viewer)
     
@@ -72,7 +72,7 @@ class MainWindow(QMainWindow):
     reader.SetDirectoryName('./sample-data/Circle of Willis')
     reader.Update()
 
-    self.axial_viewer.set_reader(reader)
-    self.coronal_viewer.set_reader(reader)
-    self.sagittal_viewer.set_reader(reader)
+    self.axial_viewer.setReader(reader)
+    self.coronal_viewer.setReader(reader)
+    self.sagittal_viewer.setReader(reader)
 

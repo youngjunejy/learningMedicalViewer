@@ -15,39 +15,21 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
     super().__init__()
 
     self.orientation = orientation
-    
-  def set_reader(self, reader):
-    # renderer = vtkRenderer()
-    # self.GetRenderWindow().AddRenderer(renderer)
+    self.imageViewer = vtkImageViewer2()
 
-    # cone = vtkConeSource()
-    # cone.SetResolution(8)
+    if(self.orientation == 'axial'):
+      self.imageViewer.SetSliceOrientationToXY()
+    elif(self.orientation == 'coronal'):
+      self.imageViewer.SetSliceOrientationToXZ()
+    elif(self.orientation == 'sagittal'):
+      self.imageViewer.SetSliceOrientationToYZ()      
 
-    # mapper = vtkPolyDataMapper()
-    # mapper.SetInputConnection(cone.GetOutputPort())
-
-    # actor = vtkActor()
-    # actor.SetMapper(mapper)
-
-    # renderer.AddActor(actor)
-    # renderer.SetBackground(0.5, 0.5, 0.5)
-
-    # self.Initialize()
-    # self.Start()
-
-
-    image_viewer = vtkImageViewer2()
-    image_viewer.SetRenderWindow(self.GetRenderWindow())
-
-    image_viewer.SetInputConnection(reader.GetOutputPort())
-
+  def setReader(self, reader):
+    self.imageViewer.SetRenderWindow(self.GetRenderWindow())
+    self.imageViewer.SetInputConnection(reader.GetOutputPort())
     self.Initialize()
-    image_viewer.Render()
-    # self.Start()
+    self.imageViewer.Render()
 
-
-  # def set_slice(self, slice):
-  #   self.viewer.SetSlice(slice)
-
-  # def render(self):
-  #   # renderer.Render()
+  def setSlice(self, slice):
+    self.imageViewer.SetSlice(slice)
+    self.imageViewer.Render()
