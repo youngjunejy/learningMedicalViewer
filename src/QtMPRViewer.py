@@ -2,6 +2,9 @@ from PySide6.QtWidgets import QMainWindow, QWidget, QSlider, QVBoxLayout, QLabel
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtCore import Qt
 
+import pydicom
+import os
+
 from vtkmodules.vtkFiltersSources import vtkConeSource
 from vtkmodules.vtkRenderingCore import vtkActor, vtkPolyDataMapper, vtkRenderer
 import vtkmodules.vtkRenderingOpenGL2
@@ -27,17 +30,29 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
       self.imageViewer.SetSliceOrientationToYZ()      
 
   def setReader(self, reader:'vtkDICOMImageReader'):
-    print(reader.GetOutput())
-
     self.imageViewer.SetRenderWindow(self.GetRenderWindow())
     self.imageViewer.SetInputConnection(reader.GetOutputPort())
+
+    windowLevel = self.imageViewer.GetWindowLevel()
+    windowLevel.SetLevel(400)
+    windowLevel.SetWindow(1000)
+
     self.Initialize()
     self.imageViewer.Render()
 
-    windowLevel = self.imageViewer.GetWindowLevel()
     print(windowLevel.GetLevel(), windowLevel.GetWindow())
-
 
   def setSlice(self, slice):
     self.imageViewer.SetSlice(slice)
     self.imageViewer.Render()
+    
+  # def getWindowLevel(self, reader:'vtkDICOMImageReader'):
+  #   directoryName = reader.GetDirectoryName()
+  #   for filename in os.listdir(directoryName):
+  #     if filename.endswith('.dcm'):
+  #       filepath = os.path.join(directoryName, filename)
+  #       ds = pydicom.dcmread(filepath)
+  #       if 'WindowWidth' in ds:
+  #           window_width = ds.WindowWidth
+  #           print(f'File: {filename}, Window Width: {window_width}')
+    

@@ -2,10 +2,9 @@
 
 ## doing list
 
-- [ ] MPR
-  - [ ] 使用 vtkImageViewer2 实现 MPR，最终实现效果要和 3D slicer 相同
-    - window level 调整, 需要读取dicom tag
-    - slicer 顺序调整
+- [ ] MPR，目前实现和3D slicer相同的渲染效果和操作效果
+  - [x] window level: 硬编码实现了3D slicer相同的值，window level值的自动调整优先级低，后续有空研究，虽然window level目前值相同，但渲染效果还是有点差别，猜测是thinness的问题。
+  - slicer 顺序调整
 
 ## 功能
 
