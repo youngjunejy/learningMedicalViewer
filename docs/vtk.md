@@ -8,3 +8,10 @@
 
 todo: 
 cell和point的关系？
+
+## 源码阅读笔记
+- vtkDICOMImageReader
+
+- vtkImageReslice
+- vtkImageMapToWindowLevelColors
+- vtkImageMapToColors

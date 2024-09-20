@@ -3,6 +3,8 @@ from PySide6.QtGui import QColor, QPalette
 from PySide6.QtCore import Qt
 from src.QtMPRViewer import *
 
+from vtkmodules.vtkIOImage import vtkDICOMImageReader
+
 class QtViewerContainer(QWidget):
   def __init__(self, orientation):
     super().__init__()
@@ -37,7 +39,7 @@ class QtViewerContainer(QWidget):
 
     return slider
   
-  def setReader(self, reader):
+  def setReader(self, reader:'vtkDICOMImageReader'):
     self.view.setReader(reader)
     self.slider.setMinimum(self.view.imageViewer.GetSliceMin())
     self.slider.setMaximum(self.view.imageViewer.GetSliceMax())

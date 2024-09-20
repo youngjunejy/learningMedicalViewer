@@ -4,6 +4,8 @@
 
 - [ ] MPR
   - [ ] 使用 vtkImageViewer2 实现 MPR，最终实现效果要和 3D slicer 相同
+    - window level 调整, 需要读取dicom tag
+    - slicer 顺序调整
 
 ## 功能
 

@@ -6,6 +6,8 @@ from vtkmodules.vtkFiltersSources import vtkConeSource
 from vtkmodules.vtkRenderingCore import vtkActor, vtkPolyDataMapper, vtkRenderer
 import vtkmodules.vtkRenderingOpenGL2
 from vtkmodules.vtkInteractionImage import vtkImageViewer2, vtkResliceImageViewer
+from vtkmodules.vtkImagingColor import vtkImageMapToWindowLevelColors
+from vtkmodules.vtkIOImage import vtkDICOMImageReader
 
 import vtkmodules.qt.QVTKRenderWindowInteractor as QVTK
 QVTKRenderWindowInteractor = QVTK.QVTKRenderWindowInteractor
@@ -24,11 +26,17 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
     elif(self.orientation == 'sagittal'):
       self.imageViewer.SetSliceOrientationToYZ()      
 
-  def setReader(self, reader):
+  def setReader(self, reader:'vtkDICOMImageReader'):
+    print(reader.GetOutput())
+
     self.imageViewer.SetRenderWindow(self.GetRenderWindow())
     self.imageViewer.SetInputConnection(reader.GetOutputPort())
     self.Initialize()
     self.imageViewer.Render()
+
+    windowLevel = self.imageViewer.GetWindowLevel()
+    print(windowLevel.GetLevel(), windowLevel.GetWindow())
+
 
   def setSlice(self, slice):
     self.imageViewer.SetSlice(slice)
