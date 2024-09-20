@@ -20,7 +20,7 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
     super().__init__()
 
     self.orientation = orientation
-    self.imageViewer = vtkImageViewer2()
+    self.imageViewer = vtkResliceImageViewer()
 
     if(self.orientation == 'axial'):
       self.imageViewer.SetSliceOrientationToXY()
