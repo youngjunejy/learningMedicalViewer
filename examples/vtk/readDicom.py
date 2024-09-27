@@ -12,7 +12,7 @@ def main():
 
     # Read the DICOM file
     reader = vtkDICOMImageReader()
-    reader.SetFileName('./sample-data/Covid Scans/Subject (1)/98.12.2/56364398.dcm')
+    reader.SetFileName('./sample-data/Circle of Willis/1-001.dcm')
     reader.Update()
 
     # Visualize

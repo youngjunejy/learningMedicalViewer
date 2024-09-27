@@ -1,7 +1,7 @@
 # 坐标系
 
 ## 计算机图形学坐标系系统
-计算器图形学通常包含四个坐标系，分别是model, world , view, and display。
+计算器图形学通常包含四个坐标系，分别是model, world, view, and display。
 
 ![ Modelling, world, view and display coordinate system](image.png)
 
@@ -34,4 +34,4 @@ UVW坐标系：3D体绘制的局部坐标系
 
 ## 参考资料
 - VTKTextBook: https://vtk.org/vtk-textbook/
-- 影像断层扫描中的坐标系讨论: https://zhuanlan.zhihu.com/p/112847257
+- 3D slicer: https://github.com/Slicer/Slicer/blob/main/Docs/user_guide/coordinate_systems.md
