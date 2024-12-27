@@ -9,7 +9,7 @@ The purpose of this repository is to learn how to develop medical imaging softwa
 
 ## Project structure
 
-## Progress of implementation
+## Progress of Features
 
 - Data I/O
   - [ ] DICOM

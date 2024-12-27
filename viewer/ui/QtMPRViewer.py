@@ -11,6 +11,7 @@ import vtkmodules.vtkRenderingOpenGL2
 from vtkmodules.vtkInteractionImage import vtkImageViewer2, vtkResliceImageViewer
 from vtkmodules.vtkImagingColor import vtkImageMapToWindowLevelColors
 from vtkmodules.vtkIOImage import vtkDICOMImageReader
+from vtkmodules.vtkCommonDataModel import vtkImageData
 
 import vtkmodules.qt.QVTKRenderWindowInteractor as QVTK
 QVTKRenderWindowInteractor = QVTK.QVTKRenderWindowInteractor
@@ -27,20 +28,23 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
     elif(self.orientation == 'coronal'):
       self.imageViewer.SetSliceOrientationToXZ()
     elif(self.orientation == 'sagittal'):
-      self.imageViewer.SetSliceOrientationToYZ()      
+      self.imageViewer.SetSliceOrientationToYZ()
+      
+  def setImage(self, image:'vtkImageData'):
+    imageData = image      
 
-  def setReader(self, reader:'vtkDICOMImageReader'):
-    self.imageViewer.SetRenderWindow(self.GetRenderWindow())
-    self.imageViewer.SetInputConnection(reader.GetOutputPort())
+  # def setReader(self, reader:'vtkDICOMImageReader'):
+  #   self.imageViewer.SetRenderWindow(self.GetRenderWindow())
+  #   self.imageViewer.SetInputConnection(reader.GetOutputPort())
 
-    windowLevel = self.imageViewer.GetWindowLevel()
-    windowLevel.SetLevel(400)
-    windowLevel.SetWindow(1000)
+  #   windowLevel = self.imageViewer.GetWindowLevel()
+  #   windowLevel.SetLevel(400)
+  #   windowLevel.SetWindow(1000)
 
-    self.Initialize()
-    self.imageViewer.Render()
+  #   self.Initialize()
+  #   self.imageViewer.Render()
 
-    print(windowLevel.GetLevel(), windowLevel.GetWindow())
+  #   print(windowLevel.GetLevel(), windowLevel.GetWindow())
 
   def setSlice(self, slice):
     self.imageViewer.SetSlice(slice)

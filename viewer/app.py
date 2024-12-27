@@ -4,8 +4,19 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette, QAction
 
 from vtkmodules.vtkIOImage import vtkDICOMImageReader
+from vtkmodules.vtkRenderingCore import (
+    vtkActor,
+    vtkImageActor,
+    vtkPolyDataMapper,
+    vtkRenderWindow,
+    vtkRenderWindowInteractor,
+    vtkRenderer
+)
 
-from src.QtViewerContainer import *
+import SimpleITK as sitk
+from SimpleITK.utilities.vtk import sitk2vtk
+
+from ui.QtViewerContainer import *
 
 class MainWindow(QMainWindow):
   def __init__(self):
@@ -68,11 +79,14 @@ class MainWindow(QMainWindow):
     file_menu.addAction(open_action)
 
   def open_file(self):
-    reader = vtkDICOMImageReader()
-    reader.SetDirectoryName('./sample-data/Circle of Willis')
-    reader.Update()
-
-    self.axial_viewer.setReader(reader)
-    self.coronal_viewer.setReader(reader)
-    self.sagittal_viewer.setReader(reader)
+    reader = sitk.ImageSeriesReader()
+    dicom_names = reader.GetGDCMSeriesFileNames('./sample-data/Circle of Willis')
+    reader.SetFileNames(dicom_names)
+    image = reader.Execute()
+    
+    imageData = sitk2vtk(image)
+    
+    self.axial_viewer.setImage(imageData)
+    self.coronal_viewer.setImage(imageData)
+    self.sagittal_viewer.setImage(imageData)
 
