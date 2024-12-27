@@ -1,6 +1,8 @@
 # Render
 
 ## Terminology
+- window width: 图像中显示的灰度范围
+- window level: 灰度范围的中心值
 
 ## MPR(Multi Planar Reconstruction)
 

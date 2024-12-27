@@ -39,8 +39,8 @@ class QtViewerContainer(QWidget):
 
     return slider
   
-  def setImage(self, image:'vtkImageData'):
-    self.view.setImage(image)
+  def setImage(self, image:'vtkImageData', metadata):
+    self.view.setImage(image, metadata)
     self.slider.setMinimum(self.view.imageViewer.GetSliceMin())
     self.slider.setMaximum(self.view.imageViewer.GetSliceMax())
 

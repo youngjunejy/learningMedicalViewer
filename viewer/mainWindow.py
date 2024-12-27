@@ -17,6 +17,7 @@ import SimpleITK as sitk
 from SimpleITK.utilities.vtk import sitk2vtk
 
 from ui.viewerContainer import *
+from utils.dicom import *
 
 class MainWindow(QMainWindow):
   def __init__(self):
@@ -82,11 +83,21 @@ class MainWindow(QMainWindow):
     reader = sitk.ImageSeriesReader()
     dicom_names = reader.GetGDCMSeriesFileNames('F:\learningMedicalViewer\sample-data\Circle of Willis')
     reader.SetFileNames(dicom_names)
+    reader.MetaDataDictionaryArrayUpdateOn()
     image = reader.Execute()
-    
+
+    total_slices = image.GetSize()[2]
+    window, level = getColorWindowLevel(reader, total_slices)
+    metadata = {
+      'window': window,
+      'level': level
+    }
+    print(metadata)
+
     imageData = sitk2vtk(image)
-    
-    self.axial_viewer.setImage(imageData)
-    self.coronal_viewer.setImage(imageData)
-    self.sagittal_viewer.setImage(imageData)
+    self.axial_viewer.setImage(imageData, metadata)
+    self.coronal_viewer.setImage(imageData, metadata)
+    self.sagittal_viewer.setImage(imageData, metadata)
+
+  
 

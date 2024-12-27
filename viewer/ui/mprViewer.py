@@ -36,14 +36,15 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
     self.imageViewer.GetRenderWindow().Finalize()
     super().closeEvent(event)
 
-  def setImage(self, imageData:'vtkImageData'):
+  def setImage(self, imageData:'vtkImageData', metadata):
+    # print(imageData)
     if imageData is None:
       print("Invalid image data")
       return
 
     self.imageViewer.SetInputData(imageData)
-    self.imageViewer.SetColorWindow(1000)
-    self.imageViewer.SetColorLevel(400)
+    self.imageViewer.SetColorWindow(metadata['window'])
+    self.imageViewer.SetColorLevel(metadata['level'])
 
     self.Initialize()
     self.imageViewer.Render()
@@ -51,4 +52,3 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
   def setSlice(self, sliceIndex):
     self.imageViewer.SetSlice(sliceIndex)
     self.imageViewer.Render()
-    

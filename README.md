@@ -27,6 +27,8 @@ The purpose of this repository is to learn how to develop medical imaging softwa
     - [ ] zoom
     - [ ] rotate
     - [ ] window level
+      - [x] auto
+      - [ ] manual
 - Auxiliary diagnostics
   - [ ] measure
   - [ ] segmentation
