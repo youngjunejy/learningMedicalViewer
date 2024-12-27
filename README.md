@@ -1,20 +1,22 @@
 # learningMedicalViewer
 
-## doing list
+The purpose of this repository is to learn how to develop medical imaging software by building a 3D slicer like software from scratch.
 
-- [ ] MPR，目标实现和 3D slicer 相同的渲染效果和操作效果
-  - [x] window level: 硬编码实现了 3D slicer 相同的值，window level 值的自动调整优先级低，后续有空研究
-  - [] 坐标系转换
-  - [] UX 对齐
+## Technology Stack
+- Qt
+- VTK
+- Python
 
-## 功能
+## Project structure
 
-- [ ] 数据读取
+## Progress of implementation
+
+- Data I/O
   - [ ] DICOM
   - [ ] NRRD
   - [ ] NIFTI
-- [ ] 辅助观察
-  - 渲染
+- Auxiliary observation
+  - Rendering
     - [ ] MPR
     - [ ] CPR
     - [ ] SSD
@@ -22,15 +24,15 @@
     - [ ] MinIP
     - [ ] VR
     - [ ] VE
-  - 操作
+  - Manipulation
     - [ ] pan
     - [ ] zoom
     - [ ] rotate
     - [ ] window level
-- [ ] 辅助诊断
-  - [ ] 测量
-  - [ ] 分割
-  - [ ] 检测
-  - [ ] 配准
+- Auxiliary diagnostics
+  - [ ] measure
+  - [ ] segmentation
+  - [ ] detection
+  - [ ] alignment
 
 ## backlog
