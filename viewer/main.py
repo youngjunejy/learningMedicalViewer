@@ -1,7 +1,7 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QApplication, QMainWindow
 
-from app import MainWindow
+from mainWindow import MainWindow
 
 if __name__ == "__main__":
   app = QApplication([])

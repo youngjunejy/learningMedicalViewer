@@ -1,5 +1,7 @@
 # Render
 
+## Terminology
+
 ## MPR(Multi Planar Reconstruction)
 
 参考资料：

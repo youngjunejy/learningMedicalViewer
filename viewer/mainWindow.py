@@ -16,7 +16,7 @@ from vtkmodules.vtkRenderingCore import (
 import SimpleITK as sitk
 from SimpleITK.utilities.vtk import sitk2vtk
 
-from ui.QtViewerContainer import *
+from ui.viewerContainer import *
 
 class MainWindow(QMainWindow):
   def __init__(self):
@@ -80,7 +80,7 @@ class MainWindow(QMainWindow):
 
   def open_file(self):
     reader = sitk.ImageSeriesReader()
-    dicom_names = reader.GetGDCMSeriesFileNames('./sample-data/Circle of Willis')
+    dicom_names = reader.GetGDCMSeriesFileNames('F:\learningMedicalViewer\sample-data\Circle of Willis')
     reader.SetFileNames(dicom_names)
     image = reader.Execute()
     

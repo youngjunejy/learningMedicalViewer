@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QMainWindow, QWidget, QSlider, QVBoxLayout, QLabel
 from PySide6.QtGui import QColor, QPalette
 from PySide6.QtCore import Qt
-from ui.QtMPRViewer import *
+from ui.mprViewer import *
 
 from vtkmodules.vtkIOImage import vtkDICOMImageReader
 

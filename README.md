@@ -7,12 +7,10 @@ The purpose of this repository is to learn how to develop medical imaging softwa
 - VTK
 - Python
 
-## Project structure
-
 ## Progress of Features
 
 - Data I/O
-  - [ ] DICOM
+  - [x] DICOM
   - [ ] NRRD
   - [ ] NIFTI
 - Auxiliary observation
@@ -35,4 +33,6 @@ The purpose of this repository is to learn how to develop medical imaging softwa
   - [ ] detection
   - [ ] alignment
 
-## backlog
+## Project Structure
+
+## Backlog

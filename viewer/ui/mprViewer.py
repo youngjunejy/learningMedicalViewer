@@ -21,42 +21,34 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
     super().__init__()
 
     self.orientation = orientation
-    self.imageViewer = vtkResliceImageViewer()
 
+    self.imageViewer = vtkResliceImageViewer()
+    self.imageViewer.SetRenderWindow(self.GetRenderWindow())
+    
     if(self.orientation == 'axial'):
       self.imageViewer.SetSliceOrientationToXY()
     elif(self.orientation == 'coronal'):
       self.imageViewer.SetSliceOrientationToXZ()
     elif(self.orientation == 'sagittal'):
       self.imageViewer.SetSliceOrientationToYZ()
-      
-  def setImage(self, image:'vtkImageData'):
-    imageData = image      
 
-  # def setReader(self, reader:'vtkDICOMImageReader'):
-  #   self.imageViewer.SetRenderWindow(self.GetRenderWindow())
-  #   self.imageViewer.SetInputConnection(reader.GetOutputPort())
+  def closeEvent(self, event):
+    self.imageViewer.GetRenderWindow().Finalize()
+    super().closeEvent(event)
 
-  #   windowLevel = self.imageViewer.GetWindowLevel()
-  #   windowLevel.SetLevel(400)
-  #   windowLevel.SetWindow(1000)
+  def setImage(self, imageData:'vtkImageData'):
+    if imageData is None:
+      print("Invalid image data")
+      return
 
-  #   self.Initialize()
-  #   self.imageViewer.Render()
+    self.imageViewer.SetInputData(imageData)
+    self.imageViewer.SetColorWindow(1000)
+    self.imageViewer.SetColorLevel(400)
 
-  #   print(windowLevel.GetLevel(), windowLevel.GetWindow())
-
-  def setSlice(self, slice):
-    self.imageViewer.SetSlice(slice)
+    self.Initialize()
     self.imageViewer.Render()
-    
-  # def getWindowLevel(self, reader:'vtkDICOMImageReader'):
-  #   directoryName = reader.GetDirectoryName()
-  #   for filename in os.listdir(directoryName):
-  #     if filename.endswith('.dcm'):
-  #       filepath = os.path.join(directoryName, filename)
-  #       ds = pydicom.dcmread(filepath)
-  #       if 'WindowWidth' in ds:
-  #           window_width = ds.WindowWidth
-  #           print(f'File: {filename}, Window Width: {window_width}')
+
+  def setSlice(self, sliceIndex):
+    self.imageViewer.SetSlice(sliceIndex)
+    self.imageViewer.Render()
     
