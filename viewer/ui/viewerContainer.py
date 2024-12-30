@@ -17,6 +17,10 @@ class QtViewerContainer(QWidget):
     layout.addWidget(self.slider)
     layout.addWidget(self.view)
     self.setLayout(layout)
+  
+  def closeEvent(self, QCloseEvent):
+    super().closeEvent(QCloseEvent)
+    self.view.close()
 
   def initBackground(self):
     self.setAutoFillBackground(True)

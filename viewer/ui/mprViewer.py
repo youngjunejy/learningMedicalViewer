@@ -7,7 +7,7 @@ import os
 
 from vtkmodules.vtkFiltersSources import vtkConeSource
 from vtkmodules.vtkRenderingCore import vtkActor, vtkPolyDataMapper, vtkRenderer
-import vtkmodules.vtkRenderingOpenGL2
+# import vtkmodules.vtkRenderingOpenGL2
 from vtkmodules.vtkInteractionImage import vtkImageViewer2, vtkResliceImageViewer
 from vtkmodules.vtkImagingColor import vtkImageMapToWindowLevelColors
 from vtkmodules.vtkIOImage import vtkDICOMImageReader
@@ -16,14 +16,19 @@ from vtkmodules.vtkCommonDataModel import vtkImageData
 import vtkmodules.qt.QVTKRenderWindowInteractor as QVTK
 QVTKRenderWindowInteractor = QVTK.QVTKRenderWindowInteractor
 
-class QtMPRViewer(QVTKRenderWindowInteractor):
+class QtMPRViewer(QWidget):
   def __init__(self, orientation):
     super().__init__()
 
     self.orientation = orientation
+    self.vtkWidget = QVTKRenderWindowInteractor(self)
+
+    layout = QVBoxLayout()
+    layout.addWidget(self.vtkWidget)
+    self.setLayout(layout)
 
     self.imageViewer = vtkResliceImageViewer()
-    self.imageViewer.SetRenderWindow(self.GetRenderWindow())
+    self.imageViewer.SetRenderWindow(self.vtkWidget.GetRenderWindow())
     
     if(self.orientation == 'axial'):
       self.imageViewer.SetSliceOrientationToXY()
@@ -32,10 +37,10 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
     elif(self.orientation == 'sagittal'):
       self.imageViewer.SetSliceOrientationToYZ()
 
-  def closeEvent(self, event):
-    self.imageViewer.GetRenderWindow().Finalize()
-    super().closeEvent(event)
-
+  def closeEvent(self, QCloseEvent):
+    super().closeEvent(QCloseEvent)
+    self.vtkWidget.Finalize()
+    
   def setImage(self, imageData:'vtkImageData', metadata):
     # print(imageData)
     if imageData is None:
@@ -46,7 +51,7 @@ class QtMPRViewer(QVTKRenderWindowInteractor):
     self.imageViewer.SetColorWindow(metadata['window'])
     self.imageViewer.SetColorLevel(metadata['level'])
 
-    self.Initialize()
+    self.vtkWidget.Initialize()
     self.imageViewer.Render()
 
   def setSlice(self, sliceIndex):

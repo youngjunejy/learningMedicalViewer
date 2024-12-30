@@ -28,6 +28,12 @@ class MainWindow(QMainWindow):
 
     # test
     self.open_file()
+  
+  def closeEvent(self, QCloseEvent):
+    super().closeEvent(QCloseEvent)
+    self.axial_viewer.close()
+    self.coronal_viewer.close()
+    self.sagittal_viewer.close()
 
   def init_ui(self):
     self.setWindowTitle("Learning Medical Viewer")
