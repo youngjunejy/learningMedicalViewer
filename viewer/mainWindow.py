@@ -3,7 +3,7 @@ from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QS
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QColor, QPalette, QAction
 
-from vtkmodules.vtkIOImage import vtkDICOMImageReader
+from vtkmodules.vtkIOImage import vtkDICOMImageReader, vtkNrrdReader
 from vtkmodules.vtkRenderingCore import (
     vtkActor,
     vtkImageActor,
@@ -17,7 +17,7 @@ import SimpleITK as sitk
 from SimpleITK.utilities.vtk import sitk2vtk
 
 from ui.viewerContainer import *
-from utils.dicom import *
+from utils.windowlevel import *
 
 class MainWindow(QMainWindow):
   def __init__(self):
@@ -86,24 +86,46 @@ class MainWindow(QMainWindow):
     file_menu.addAction(open_action)
 
   def open_file(self):
-    reader = sitk.ImageSeriesReader()
-    dicom_names = reader.GetGDCMSeriesFileNames('F:\learningMedicalViewer\sample-data\Circle of Willis')
-    reader.SetFileNames(dicom_names)
-    reader.MetaDataDictionaryArrayUpdateOn()
-    image = reader.Execute()
-
-    total_slices = image.GetSize()[2]
-    window, level = getColorWindowLevel(reader, total_slices)
+    # self.add_nrrd_data()
+    self.add_dicom_data()
+  
+  def add_dicom_data(self):
+    # read by sitk
+    # reader = sitk.ImageSeriesReader()
+    # dicom_names = reader.GetGDCMSeriesFileNames('F:\learningMedicalViewer\sample-data\Circle of Willis')
+    # reader.SetFileNames(dicom_names)
+    # reader.MetaDataDictionaryArrayUpdateOn()
+    # image = reader.Execute()
+    # imageData = sitk2vtk(image)
+    
+    reader = vtkDICOMImageReader()
+    reader.SetDirectoryName('F:\learningMedicalViewer\sample-data\Circle of Willis')
+    reader.Update()
+    imageData = reader.GetOutput()
+    
+    window, level = getWindowLevel(imageData)
     metadata = {
       'window': window,
       'level': level
     }
-    print(metadata)
-
-    imageData = sitk2vtk(image)
+    
     self.axial_viewer.setImage(imageData, metadata)
     self.coronal_viewer.setImage(imageData, metadata)
     self.sagittal_viewer.setImage(imageData, metadata)
 
-  
+  def add_nrrd_data(self):
+    reader = vtkNrrdReader()
+    reader.SetFileName('F:\learningMedicalViewer\sample-data\/nrrd\CT-chest.nrrd')
+    reader.Update()
+    imageData = reader.GetOutput()
+
+    window, level = getWindowLevel(imageData)
+    metadata = {
+      'window': window,
+      'level': level
+    }
+    
+    self.axial_viewer.setImage(imageData, metadata)
+    self.coronal_viewer.setImage(imageData, metadata)
+    self.sagittal_viewer.setImage(imageData, metadata)
 

@@ -11,24 +11,22 @@ The purpose of this repository is to learn how to develop medical imaging softwa
 
 - Data I/O
   - [x] DICOM
-  - [ ] NRRD
+  - [x] NRRD
   - [ ] NIFTI
 - Auxiliary observation
   - Rendering
-    - [ ] MPR
+    - [x] MPR
+    - [ ] VR
     - [ ] CPR
     - [ ] SSD
     - [ ] MIP
     - [ ] MinIP
-    - [ ] VR
     - [ ] VE
   - Manipulation
     - [ ] pan
     - [ ] zoom
     - [ ] rotate
-    - [ ] window level
-      - [x] auto
-      - [ ] manual
+    - [x] window level
 - Auxiliary diagnostics
   - [ ] measure
   - [ ] segmentation
